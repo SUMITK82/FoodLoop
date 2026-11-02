@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FoodLoop | Gastronomy 2026</title>
+  <meta name="description" content="The future of conscious dining. Bio-engineered gastronomy for 2026.">
+  <link rel="shortcut icon" href="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=100&q=80" type="image/x-icon">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;1,600&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <script>
+    const savedTheme = localStorage.getItem('foodloop-theme');
+    if (savedTheme === 'dark' || (!savedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+      document.documentElement.setAttribute('data-theme', 'dark');
+    }
+  </script>
+</head>
+<body>
+
+<div id="curtain"></div>
+<div id="scroll-progress"></div>
+<div id="toast-container"></div>
+
+<div id="loader">
+  <div class="loader-content">
+    <div class="loader-logo"><i class="ri-restaurant-line"></i><h2>FOODLOOP</h2></div>
+    <div class="loader-bar"><div class="progress"></div></div>
+    <p class="loader-tag">Initializing Gastronomy...</p>
+  </div>
+</div>
+
+<div id="cursor"></div>
+<div id="cursor-blur"></div>
+
+<!-- Navbar (No Number Badges) -->
+<nav id="nav">
+  <a href="#hero" id="logo" class="nav-link">
+    <div class="logo-icon"><i class="ri-restaurant-line"></i></div>
+    <div class="logo-text">FOOD<span>LOOP</span></div>
+  </a>
+  <div id="links">
+    <a href="#shop" class="nav-link">Shop</a>
+    <a href="#recipes" class="nav-link">Recipes</a>
+    <a href="#visions" class="nav-link">Visions</a>
+    <a href="#story" class="nav-link">Story</a>
+  </div>
+  <div id="nav-actions">
+    <button id="wishlist-btn" title="Wishlist"><i class="ri-heart-line"></i></button>
+    <button id="theme-toggle-btn" title="Toggle Mode"><i class="ri-moon-clear-line"></i></button>
+    <div id="cart-icon" class="magnetic">
+      <i class="ri-shopping-bag-line"></i>
+    </div>
+    <button id="mobile-menu-btn"><i class="ri-menu-4-line"></i></button>
+  </div>
+</nav>
+
+<!-- Mobile Menu -->
+<div id="mobile-menu">
+  <button id="close-mobile-menu"><i class="ri-close-line"></i></button>
+  <a href="#hero" class="nav-link">Home</a>
+  <a href="#shop" class="nav-link">Shop</a>
+  <a href="#recipes" class="nav-link">Recipes</a>
+  <a href="#visions" class="nav-link">Visions</a>
+  <a href="#story" class="nav-link">Story</a>
+</div>
+
+<!-- Cart Sidebar -->
+<div id="cart-sidebar">
+  <div class="cart-header">
+    <h3>YOUR SELECTION</h3>
+    <button id="close-cart"><i class="ri-close-line"></i></button>
+  </div>
+  <div id="cart-items"><p class="empty-msg">Your loop is currently empty.</p></div>
+  <div class="cart-footer">
+    <div class="coupon-area">
+      <input type="text" id="coupon-input" placeholder="Coupon code (try LOOP10)">
+      <button id="apply-coupon">Apply</button>
+    </div>
+    <div class="total"><span>Subtotal</span><span id="cart-subtotal">$0.00</span></div>
+    <div class="total discount" id="discount-row" style="display:none;"><span>Discount (10%)</span><span id="cart-discount">-$0.00</span></div>
+    <div class="total"><span>Total</span><span id="cart-total">$0.00</span></div>
+    <button class="checkout-btn magnetic" id="checkout-btn">PROCEED TO CHECKOUT</button>
+  </div>
+</div>
+<div id="cart-overlay"></div>
+
+<!-- Wishlist Sidebar -->
+<div id="wishlist-sidebar">
+  <div class="cart-header">
+    <h3>YOUR WISHLIST</h3>
+    <button id="close-wishlist"><i class="ri-close-line"></i></button>
+  </div>
+  <div id="wishlist-items"><p class="empty-msg">Your wishlist is empty.</p></div>
+</div>
+<div id="wishlist-overlay"></div>
+
+<!-- Quick View Modal -->
+<div id="quick-view-modal">
+  <div class="modal-content">
+    <button id="close-modal"><i class="ri-close-line"></i></button>
+    <div class="modal-body">
+      <img id="modal-img" src="" alt="Product">
+      <div class="modal-info">
+        <p class="label">PRODUCT DETAILS</p>
+        <h2 id="modal-title">Product</h2>
+        <p class="price" id="modal-price">$0.00</p>
+        <p class="desc" id="modal-desc">Product description goes here.</p>
+        <button class="primary-btn magnetic" id="modal-add-btn">Add to Cart</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div id="modal-overlay"></div>
+
+<main id="main">
+
+  <!-- HERO -->
+  <section id="hero" class="section">
+    <div class="hero-gallery">
+      <div class="gallery-item"><img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=1200&q=80" alt="Food 1"></div>
+      <div class="gallery-item"><img src="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&w=1200&q=80" alt="Food 2"></div>
+      <div class="gallery-item"><img src="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?auto=format&fit=crop&w=1200&q=80" alt="Food 3"></div>
+    </div>
+    <div class="hero-text reveal">
+      <p class="label">EST. 2026</p>
+      <h1 class="serif text-magnetic">The Future of<br>Conscious Dining</h1>
+    </div>
+  </section>
+
+  <!-- STORY / ABOUT -->
+  <section id="story" class="section glow-section">
+    <div class="section-head reveal">
+      <p class="label">BEYOND THE PLATE</p>
+      <h2 class="serif">Redefining <span>Sustainable Luxury</span></h2>
+    </div>
+    <div class="about-grid">
+      <div class="about-img tilt reveal">
+        <img src="https://images.unsplash.com/photo-1547592166-23ac45744acd?auto=format&fit=crop&w=800&q=80" alt="Cooking 1">
+      </div>
+      <div class="about-text reveal">
+        <p>FoodLoop has become the global standard for ethical gastronomy. Sustainability in every bite. We capture every nuance of freshness with bio-engineered precision.</p>
+        <div class="stats">
+          <div><h3 class="counter" data-target="15000">0</h3><p>Labs</p></div>
+          <div><h3 class="counter" data-target="1000000">0</h3><p>Impact</p></div>
+        </div>
+        <button class="primary-btn magnetic">Our 2026 Report</button>
+      </div>
+      <div class="about-img tilt reveal">
+        <img src="https://images.unsplash.com/photo-1551218808-94e220e084d2?auto=format&fit=crop&w=800&q=80" alt="Cooking 2">
+      </div>
+    </div>
+  </section>
+
+  <!-- VISIONS / PLANS -->
+  <section id="visions" class="section">
+    <div class="section-head reveal">
+      <p class="label">2027-2030 ROADMAP</p>
+      <h2 class="serif">The Next <span>Horizon</span></h2>
+    </div>
+    <div class="grid-3">
+      <div class="card tilt reveal spotlight-card">
+        <i class="ri-rocket-2-line"></i>
+        <h3>Mars Gardens</h3>
+        <p>Developing off-world organic farming systems for the first human colonies.</p>
+      </div>
+      <div class="card tilt reveal spotlight-card">
+        <i class="ri-cpu-line"></i>
+        <h3>Neural Taste</h3>
+        <p>Direct-to-brain flavor simulation for a purely sensory dining experience.</p>
+      </div>
+      <div class="card tilt reveal spotlight-card">
+        <i class="ri-leaf-line"></i>
+        <h3>Atmos-Food</h3>
+        <p>Extracting nutrients directly from the air to solve global food scarcity.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- RECIPES -->
+  <section id="recipes" class="section">
+    <div class="section-head reveal">
+      <p class="label">THE FORMULARY</p>
+      <h2 class="serif">Advanced <span>Nutrient Matrix</span></h2>
+    </div>
+    <div class="grid-3">
+      <div class="card recipe-card tilt reveal clip-reveal">
+        <div class="img-wrapper"><img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=800&q=80" alt="Recipe 1"></div>
+        <div class="card-info">
+          <h3>Avocado Sunrise 2.0</h3>
+          <p>Optimizes Neural Clarity</p>
+        </div>
+      </div>
+      <div class="card recipe-card tilt reveal clip-reveal">
+        <div class="img-wrapper"><img src="https://images.unsplash.com/photo-1551183053-bf91a1d81141?auto=format&fit=crop&w=800&q=80" alt="Recipe 2"></div>
+        <div class="card-info">
+          <h3>Quantum Truffle</h3>
+          <p>Enhanced Cellular Repair</p>
+        </div>
+      </div>
+      <div class="card recipe-card tilt reveal clip-reveal">
+        <div class="img-wrapper"><img src="https://images.unsplash.com/photo-1553621042-f6e147245754?auto=format&fit=crop&w=800&q=80" alt="Recipe 3"></div>
+        <div class="card-info">
+          <h3>Abyssal Platter</h3>
+          <p>High-Omega Metabolism</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SHOP -->
+  <section id="shop" class="section">
+    <div class="section-head reveal">
+      <p class="label">2026 COLLECTION</p>
+      <h2 class="serif">The <span>Vault</span></h2>
+      <div class="shop-filter">
+        <button class="filter-btn active" data-filter="all">All</button>
+        <button class="filter-btn" data-filter="sea">Seafood</button>
+        <button class="filter-btn" data-filter="veg">Bio-Veg</button>
+        <button class="filter-btn" data-filter="sig">Signature</button>
+      </div>
+    </div>
+
+    <div class="shop-grid" id="shop-grid">
+      <!-- SEAFOOD -->
+      <div class="card item tilt" data-cat="sea" data-name="Coral Loop" data-price="120.00" data-desc="Deep sea coral nutrients synthesized into a crunchy, mineral-rich bite. Perfect for regeneration.">
+        <span class="badge new">New</span>
+        <button class="wishlist-toggle" data-name="Coral Loop"><i class="ri-heart-line"></i></button>
+        <img src="https://images.unsplash.com/photo-1553621042-f6e147245754?auto=format&fit=crop&w=800&q=80" alt="Coral">
+        <div class="item-details">
+          <h3>Coral Loop</h3><p>$120.00</p>
+          <div class="item-actions">
+            <button class="quick-view-btn" data-name="Coral Loop">Quick View</button>
+            <button class="add-btn acquire-btn magnetic">Acquire</button>
+          </div>
+        </div>
+      </div>
+      <div class="card item tilt" data-cat="sea" data-name="Oceanic Pearl" data-price="165.00" data-desc="Cultivated pearls of protein with a subtle saline finish. Engineered for endurance.">
+        <span class="badge bestseller">Bestseller</span>
+        <button class="wishlist-toggle" data-name="Oceanic Pearl"><i class="ri-heart-line"></i></button>
+        <img src="https://images.unsplash.com/photo-1551183053-bf91a1d81141?auto=format&fit=crop&w=800&q=80" alt="Oceanic">
+        <div class="item-details">
+          <h3>Oceanic Pearl</h3><p>$165.00</p>
+          <div class="item-actions">
+            <button class="quick-view-btn" data-name="Oceanic Pearl">Quick View</button>
+            <button class="add-btn acquire-btn magnetic">Acquire</button>
+          </div>
+        </div>
+      </div>
+      <div class="card item tilt" data-cat="sea" data-name="Deep Blue" data-price="210.00" data-desc="The darkest, richest seafood protein. Contains concentrated omega-3s from abyssal sources.">
+        <span class="badge limited">Limited</span>
+        <button class="wishlist-toggle" data-name="Deep Blue"><i class="ri-heart-line"></i></button>
+        <img src="https://images.unsplash.com/photo-1551248429-40975aa4de74?auto=format&fit=crop&w=800&q=80" alt="Deep Blue">
+        <div class="item-details">
+          <h3>Deep Blue</h3><p>$210.00</p>
+          <div class="item-actions">
+            <button class="quick-view-btn" data-name="Deep Blue">Quick View</button>
+            <button class="add-btn acquire-btn magnetic">Acquire</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- BIO-VEG -->
+      <div class="card item tilt" data-cat="veg" data-name="Forest Loop" data-price="85.00" data-desc="Fermented forest grains with a hint of wild yeast. Aids in digestion.">
+        <span class="badge new">New</span>
+        <button class="wishlist-toggle" data-name="Forest Loop"><i class="ri-heart-line"></i></button>
+        <img src="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&w=800&q=80" alt="Forest">
+        <div class="item-details">
+          <h3>Forest Loop</h3><p>$85.00</p>
+          <div class="item-actions">
+            <button class="quick-view-btn" data-name="Forest Loop">Quick View</button>
+            <button class="add-btn acquire-btn magnetic">Acquire</button>
+          </div>
+        </div>
+      </div>
+      <div class="card item tilt" data-cat="veg" data-name="Solar Garden" data-price="110.00" data-desc="A vibrant, sun-charged salad of bio-avocado and solar-poached egg.">
+        <span class="badge bestseller">Bestseller</span>
+        <button class="wishlist-toggle" data-name="Solar Garden"><i class="ri-heart-line"></i></button>
+        <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=800&q=80" alt="Solar">
+        <div class="item-details">
+          <h3>Solar Garden</h3><p>$110.00</p>
+          <div class="item-actions">
+            <button class="quick-view-btn" data-name="Solar Garden">Quick View</button>
+            <button class="add-btn acquire-btn magnetic">Acquire</button>
+          </div>
+        </div>
+      </div>
+      <div class="card item tilt" data-cat="veg" data-name="Emerald Matrix" data-price="150.00" data-desc="Cold-pressed greens with quantum chlorophyll. Detoxifies cells.">
+        <span class="badge">Vegan</span>
+        <button class="wishlist-toggle" data-name="Emerald Matrix"><i class="ri-heart-line"></i></button>
+        <img src="https://images.unsplash.com/photo-1540189549336-e6e99c3679fe?auto=format&fit=crop&w=800&q=80" alt="Emerald">
+        <div class="item-details">
+          <h3>Emerald Matrix</h3><p>$150.00</p>
+          <div class="item-actions">
+            <button class="quick-view-btn" data-name="Emerald Matrix">Quick View</button>
+            <button class="add-btn acquire-btn magnetic">Acquire</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- SIGNATURE -->
+      <div class="card item tilt" data-cat="sig" data-name="Neo Loop" data-price="145.00" data-desc="The ultimate blend of bio-engineered texture and taste. A full meal in a bite.">
+        <span class="badge bestseller">Bestseller</span>
+        <button class="wishlist-toggle" data-name="Neo Loop"><i class="ri-heart-line"></i></button>
+        <img src="https://images.unsplash.com/photo-1559339352-11d035aa65de?auto=format&fit=crop&w=800&q=80" alt="Neo">
+        <div class="item-details">
+          <h3>Neo Loop</h3><p>$145.00</p>
+          <div class="item-actions">
+            <button class="quick-view-btn" data-name="Neo Loop">Quick View</button>
+            <button class="add-btn acquire-btn magnetic">Acquire</button>
+          </div>
+        </div>
+      </div>
+      <div class="card item tilt" data-cat="sig" data-name="Primal Loop" data-price="195.00" data-desc="High-protein, high-impact. For those operating at the edge.">
+        <span class="badge limited">Limited</span>
+        <button class="wishlist-toggle" data-name="Primal Loop"><i class="ri-heart-line"></i></button>
+        <img src="https://images.unsplash.com/photo-1555939594-58d7cb561ad1?auto=format&fit=crop&w=800&q=80" alt="Primal">
+        <div class="item-details">
+          <h3>Primal Loop</h3><p>$195.00</p>
+          <div class="item-actions">
+            <button class="quick-view-btn" data-name="Primal Loop">Quick View</button>
+            <button class="add-btn acquire-btn magnetic">Acquire</button>
+          </div>
+        </div>
+      </div>
+      <div class="card item tilt" data-cat="sig" data-name="Zenith Loop" data-price="285.00" data-desc="The peak of molecular gastronomy. A luxurious experience in a single serving.">
+        <span class="badge">Exclusive</span>
+        <button class="wishlist-toggle" data-name="Zenith Loop"><i class="ri-heart-line"></i></button>
+        <img src="https://images.unsplash.com/photo-1467003909585-2f8a72700288?auto=format&fit=crop&w=800&q=80" alt="Zenith">
+        <div class="item-details">
+          <h3>Zenith Loop</h3><p>$285.00</p>
+          <div class="item-actions">
+            <button class="quick-view-btn" data-name="Zenith Loop">Quick View</button>
+            <button class="add-btn acquire-btn magnetic">Acquire</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="section">
+    <div class="marquee-container">
+      <div class="marquee-content">
+        <span>POST-MODERN GASTRONOMY</span><i class="ri-restaurant-line"></i>
+        <span>RE-ENGINEERED FOR 2026</span><i class="ri-restaurant-line"></i>
+        <span>SUSTAINABLE LUXURY</span><i class="ri-restaurant-line"></i>
+        <span>POST-MODERN GASTRONOMY</span><i class="ri-restaurant-line"></i>
+        <span>RE-ENGINEERED FOR 2026</span><i class="ri-restaurant-line"></i>
+      </div>
+    </div>
+    <div class="footer-content">
+      <div class="footer-brand">
+        <h2>FOODLOOP</h2>
+        <p>Post-Modern Gastronomy. Re-engineered for 2026.</p>
+      </div>
+      <div class="footer-links">
+        <h4>System</h4>
+        <a href="#shop" class="nav-link">Shop</a>
+        <a href="#recipes" class="nav-link">Recipes</a>
+        <a href="#visions" class="nav-link">Visions</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 FoodLoop Global.</p>
+    </div>
+  </footer>
+
+</main>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+<script src="script.js"></script>
+</body>
+</html>
